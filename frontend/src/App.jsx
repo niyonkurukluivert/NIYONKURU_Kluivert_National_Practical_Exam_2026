@@ -12,6 +12,16 @@ export default function App() {
     const [authLoading, setAuthLoading] = useState(true);
     const [tab, setTab] = useState('dashboard');
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+    const [theme, setTheme] = useState(() => {
+        return localStorage.getItem('srms-theme') || 'sunset';
+    });
+
+    // Apply theme on load or change
+    useEffect(() => {
+        document.body.classList.remove('theme-sunset', 'theme-emerald', 'theme-nordic', 'theme-royal', 'theme-cyberpunk');
+        document.body.classList.add(`theme-${theme}`);
+        localStorage.setItem('srms-theme', theme);
+    }, [theme]);
 
     // Verify session status on mount
     useEffect(() => {
@@ -152,6 +162,18 @@ export default function App() {
                         </button>
                     </li>
                 </ul>
+
+                {/* Theme Switcher */}
+                <div className="theme-switcher">
+                    <span className="theme-label">Theme switcher</span>
+                    <div className="theme-buttons">
+                        <button className={`theme-dot dot-sunset ${theme === 'sunset' ? 'active' : ''}`} onClick={() => setTheme('sunset')} title="Sunset Brass"></button>
+                        <button className={`theme-dot dot-emerald ${theme === 'emerald' ? 'active' : ''}`} onClick={() => setTheme('emerald')} title="Emerald Forest"></button>
+                        <button className={`theme-dot dot-nordic ${theme === 'nordic' ? 'active' : ''}`} onClick={() => setTheme('nordic')} title="Nordic Frost"></button>
+                        <button className={`theme-dot dot-royal ${theme === 'royal' ? 'active' : ''}`} onClick={() => setTheme('royal')} title="Royal Amethyst"></button>
+                        <button className={`theme-dot dot-cyberpunk ${theme === 'cyberpunk' ? 'active' : ''}`} onClick={() => setTheme('cyberpunk')} title="Cyberpunk Amber"></button>
+                    </div>
+                </div>
 
                 <div className="sidebar-user">
                     <div className="user-info">
